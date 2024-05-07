@@ -1,5 +1,6 @@
 old_versions/
 dist/
+.gitpics/
 *.exe
 *.docx
 *.ico

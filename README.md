@@ -7,6 +7,8 @@
 ## Особенности и описание работы утилиты
 Утилита позволяет вывести единый график плотности людских потоков для выбранных временных промежутков независимо от разметки сценариев, а также определить продолжительность людских скоплений.
 
+![firegoaway_pfed_demo_gif-min](https://raw.githubusercontent.com/firegoaway/Plot_Fenix_Evac_Density/main/.gitpics/pfed_demo_gif-min.gif)
+
 ### Поддерживаемые версии Fenix+
 > **Fenix+ 3**
 
