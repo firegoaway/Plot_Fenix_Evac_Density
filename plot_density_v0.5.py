@@ -32,10 +32,10 @@ def process_data(file_paths, density_threshold=0.5):
                                 first_crossing_time = evacuation_time
                             last_crossing_time = evacuation_time
 
-    # Calculate the time duration if both first and last times are available
-    time_duration = last_crossing_time - first_crossing_time if first_crossing_time is not None and last_crossing_time is not None else 1  # Prevent division by zero
+    # Чересстрочный (criss-cross) расчёт первого и последнего времени, если найдены
+    time_duration = last_crossing_time - first_crossing_time if first_crossing_time is not None and last_crossing_time is not None else 1  # Избегаем деления на ноль
 
-    # Calculate normalized integral result
+    # Вычисляем нормализацию (определённый интеграл)
     integral_result = (num_lines_above_threshold * 0.25) / time_duration
 
     return densities, integral_result
@@ -59,7 +59,7 @@ def plot_densities(densities, density_threshold, integral_result):
     plt.grid(True)
     plt.legend()
 
-    # Annotate the Integral Result on the graph
+    # Аннотация на графике (неудобно накладывается поверх графика)
     #plt.annotate(f'Время существования скоплений: {integral_result:.1f} сек', xy=(0.01, 0.01), xycoords='axes fraction', 
     #            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="b", lw=2), fontsize=8)
 
@@ -72,7 +72,7 @@ def open_file_dialog():
     density_threshold = 0.5
     if file_paths:
         densities, integral_result = process_data(file_paths, density_threshold)
-        print(f"Время существования скоплений при плотности >= {density_threshold}: {round(integral_result, 1)} сек")   # Normalized Integral Result of Density
+        print(f"Время существования скоплений при плотности >= {density_threshold}: {round(integral_result, 1)} сек")   # Выводим значение в консоль для дебага
         plot_densities(densities, density_threshold, round(integral_result, 1))
     else:
         print("Файлы не выбраны.")
