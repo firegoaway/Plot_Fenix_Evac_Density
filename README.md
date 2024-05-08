@@ -19,7 +19,7 @@
 ## Как установить и пользоваться
 |	№ п/п	|	Действие	|
 |---------|---------|
-|	1	|	Скачайте последнюю версию **PFED.exe** в разделе [Releases](https://github.com/firegoaway/Plot_Fenix_Evac_Density/releases);	|
+|	1	|	Скачайте последнюю версию **PFED.exe** в разделе [Releases](https://github.com/firegoaway/Plot_Fenix_Evac_Density/releases)	|
 |	2	|	Запустите **PFED.exe**	|
 |	3	|	Откроется окно выбора файлов. Выберите все нужные вам файлы **peoples_detailed_nnnnnn_0.tsv**	|
 |	4	|	Немного подождите, пока утилита анализирует данные, содержащиеся в файлах.	|
