@@ -9,6 +9,9 @@
 
 ![firegoaway_pfed_demo_gif-min](https://raw.githubusercontent.com/firegoaway/Plot_Fenix_Evac_Density/main/.gitpics/pfed_demo_gif-min.gif)
 
+### Метод
+**ВНИМАНИЕ! На графиках отображаются ВСЕ людские скопления, где плотность хотя бы у 2 человек в одном и том же потоке на одном и том же участке превышает 0.5 м2/м2. Этот метод отличается от расчётного, который описан в** [**Методике**](https://ivo.garant.ru/#/document/406577165/paragraph/1314/doclist/1374/1/0/0/методика%201140:0)**.**
+
 ### Поддерживаемые версии Fenix+
 > **Fenix+ 3**
 
