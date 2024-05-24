@@ -80,12 +80,12 @@ def plot_densities(evac_times, density_threshold, total_delta_sum, first_time_ex
     plt.figure()
     plt.plot(times, densities, drawstyle="steps-post", linewidth=1, color="#00FF00ff",
              marker='o', markersize=1, markeredgewidth=1, markerfacecolor="#1f77b4ff", markeredgecolor="#1f77b4ff")
-    plt.axhline(density_threshold, color="red", linestyle="--", lw=2, label=f'Критическая плотность >= {density_threshold} (м2/м2)')
+    plt.axhline(density_threshold, color="red", linestyle="--", lw=2, label=f'Критическая плотность >= {density_threshold} (м^2/м^2)')
     plt.fill_between(times, densities, density_threshold,
                      where=[d > density_threshold for d in densities],
                      color='red', alpha=0.3, label='Зона критической плотности')
     plt.xlabel('Время (сек)')
-    plt.ylabel('Плотность (м2/м2)')
+    plt.ylabel('Плотность (м^2/м^2)')
     plt.title(f'График плотности людского потока\nВремя существования скоплений (tск*): {total_delta_sum:.1f} сек')
     plt.grid(True)
     plt.legend()
