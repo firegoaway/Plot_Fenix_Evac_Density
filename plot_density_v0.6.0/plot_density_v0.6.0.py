@@ -78,7 +78,7 @@ def process_data(file_paths, density_threshold=0.5):
 
 def plot_densities(evac_times, density_threshold, total_delta_sum, first_time_exceeded, last_time_exceeded, save_path):
     times, densities = zip(*evac_times)
-    plt.figure()
+    plt.figure(figsize=(12,4))
     plt.plot(times, densities, drawstyle="steps-post", linewidth=1, color="#00FF00ff",
              marker='o', markersize=1, markeredgewidth=1, markerfacecolor="#1f77b4ff", markeredgecolor="#1f77b4ff")
     plt.axhline(density_threshold, color="red", linestyle="--", lw=2, label=f'Критическая плотность >= {density_threshold} ($м^2/м^2$)')
@@ -87,17 +87,20 @@ def plot_densities(evac_times, density_threshold, total_delta_sum, first_time_ex
                      color='red', alpha=0.3, label='Зона критической плотности')
     plt.xlabel('Время (сек)')
     plt.ylabel('Плотность ($м^2/м^2$)')
-    plt.title(f'График плотности людского потока\nВремя существования скоплений (tск*): {total_delta_sum:.1f} сек')
+    plt.title(f'График плотности людского потока\nВремя существования скоплений (tск*): {total_delta_sum:.1f} сек', fontsize=12)
     plt.grid(True)
     plt.legend()
     
     # Сохраняем, GUI не показываем
-    plt.savefig(save_path, format='png')  # Сохраняем в качестве PNG
-    plt.close()  # Закрываем инстанс
+    plt.savefig(save_path, bbox_inches='tight', format='png')  # Сохраняем в качестве PNG
+    plt.close()  # Закрываем инстанс, освобождаем память
 
 def open_file_dialog():
     root = tk.Tk()
-    root.withdraw()
+    root.title("PFED v0.6.0")
+    root.iconbitmap('.gitpics\\pfed.ico')
+    root.wm_iconbitmap('.gitpics\\pfed.ico')
+    # root.withdraw() # Используется для скрытия окна программы
     file_paths = filedialog.askopenfilenames(title="Выберите файлы с результатами формата peoples_detailed_nnnnnn_n.tsv",
                                              filetypes=[("Файлы формата TSV", "*.tsv")])
     density_threshold = 0.5
