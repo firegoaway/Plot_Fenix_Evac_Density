@@ -97,9 +97,14 @@ def plot_densities(evac_times, density_threshold, total_delta_sum, first_time_ex
 
 def open_file_dialog():
     root = tk.Tk()
+    
+    current_directory = os.path.dirname(__file__)
+    parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
+    icon_path = os.path.join(parent_directory, '.gitpics', 'pfed.ico')
+    
     root.title("PFED v0.6.0")
-    root.iconbitmap('.gitpics\\pfed.ico')
-    root.wm_iconbitmap('.gitpics\\pfed.ico')
+    root.iconbitmap(icon_path)
+    root.wm_iconbitmap(icon_path)
     # root.withdraw() # Используется для скрытия окна программы
     file_paths = filedialog.askopenfilenames(title="Выберите файлы с результатами формата peoples_detailed_nnnnnn_n.tsv",
                                              filetypes=[("Файлы формата TSV", "*.tsv")])
