@@ -29,15 +29,28 @@ def compute_deltas(evac_times, density_threshold):
     deltas = []
     first_time_exceeded = None
     last_time_exceeded = None
-    for time, max_density in evac_times:
+    
+    previous_time = None
+
+    for index, (time, max_density) in enumerate(evac_times):
         if max_density >= density_threshold:
             if first_time_exceeded is None:
                 first_time_exceeded = time
+            
             last_time_exceeded = time
-            delta = time - evac_times[-1][0] if evac_times[0][1] >= density_threshold else 0.2
+
+            if previous_time is not None:
+                delta = time - previous_time
+            else:
+                delta = 0.2  # Значение по умолчанию до того, как встретится первая дельта
+            
+            deltas.append(delta)
         else:
-            delta = 0
-        deltas.append(delta)
+            # Если Density меньше threshold, принимаем 0
+            deltas.append(0)
+        
+        previous_time = time  # Обновляем значение previous_time перед следующей итерацией
+
     return sum(deltas), first_time_exceeded, last_time_exceeded
 
 def process_data(file_paths, density_threshold=0.5):
@@ -56,8 +69,9 @@ def process_data(file_paths, density_threshold=0.5):
                     continue
                 first_cell = row[0]
                 if 'EvacuationTime' in first_cell:
+                    if time is not None:
+                        evac_times.append((time, current_max_density))
                     time = parse_evac_time(first_cell)
-                    evac_times.append((time, current_max_density))
                     current_max_density = 0
                 elif len(row) > 4 and row[4] != 'Density':
                     try:
@@ -102,7 +116,7 @@ def open_file_dialog():
     parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
     icon_path = os.path.join(parent_directory, '.gitpics', 'pfed.ico')
     
-    root.title("PFED v0.6.0")
+    root.title("PFED v0.6.1")
     root.iconbitmap(icon_path)
     root.wm_iconbitmap(icon_path)
     # root.withdraw() # Используется для скрытия окна программы
