@@ -1,11 +1,15 @@
 import os
 import matplotlib
-matplotlib.use('Agg')  # Используем 'Agg' чтобы не отображался GUI
+matplotlib.use('TkAgg')  # Используем 'Agg' чтобы не отображался GUI
 import matplotlib.pyplot as plt
 
 import csv
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
+from tkinter import ttk
+from tkinter import StringVar
+from tkinter import Tk, Toplevel, Button, Label
+from tkinter import mainloop
 
 import numpy as np
 import sympy as sp
@@ -116,7 +120,7 @@ def open_file_dialog():
     parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
     icon_path = os.path.join(parent_directory, '.gitpics', 'pfed.ico')
     
-    root.title("PFED v0.6.1")
+    root.title("PFED v0.6.2")
     root.iconbitmap(icon_path)
     root.wm_iconbitmap(icon_path)
     # root.withdraw() # Используется для скрытия окна программы
@@ -127,10 +131,8 @@ def open_file_dialog():
         for file_path in file_paths:
             evac_times, total_delta_sum, first_time_exceeded, last_time_exceeded = process_data([file_path], density_threshold)
 
-            # Определяем маршрут сохранения
-            folder_path = os.path.dirname(file_path)
-            # Берем имя второй папки после папки расположения файлов ".tsv"
-            second_folder_name = os.path.split(os.path.split(folder_path)[0])[-1]  
+            folder_path = os.path.dirname(file_path) # Определяем маршрут сохранения
+            second_folder_name = os.path.split(os.path.split(folder_path)[0])[-1] # Берем имя второй папки после папки расположения файлов ".tsv"
             save_folder = os.path.abspath(os.path.join(folder_path, '..', '..', '..'))
             file_name = os.path.basename(file_path).replace('.tsv', f'_{second_folder_name}.png')  # Используем имя второй папки
             save_path = os.path.join(save_folder, file_name)
@@ -141,6 +143,65 @@ def open_file_dialog():
             print(f"Графики сохранены по адресу: {save_path}")
     else:
         print("Файлы не выбраны.")
+    
+    def OpenPNG():
+        os.startfile(save_path)
+
+    def OpenPNGfolder():
+        os.startfile(save_folder)
+
+    def Close():
+        root.quit()  # Закрываем основное окно tkinter
+
+    custom_message_box(OpenPNG, OpenPNGfolder, Close)
+
+def custom_message_box(callback_open_png, callback_open_folder, callback_close):
+    def on_open_png():
+        callback_open_png()
+        #top.destroy()
+    
+    def on_open_folder():
+        callback_open_folder()
+        #top.destroy()
+    
+    def on_close():
+        callback_close()
+        top.destroy()
+
+    top = Toplevel()
+    top.title("PFED v0.6.2")
+    top.geometry("400x100")
+    
+    current_directory = os.path.dirname(__file__)
+    parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
+    icon_path = os.path.join(parent_directory, '.gitpics', 'pfed.ico')
+    
+    top.iconbitmap(icon_path)
+    top.wm_iconbitmap(icon_path)
+    
+    top.overrideredirect(False)  # Скрываем стандартную рамку
+
+    label = Label(top, text="Выберите действие", padx=10, pady=10)
+    label.pack(pady=(10, 0))
+    
+    button_frame = ttk.Frame(top)
+    button_frame.pack(pady=10)
+    
+    Button(button_frame, text="Показать графики", command=on_open_png).pack(side='left', padx=5)
+    Button(button_frame, text="Открыть папку с графиками", command=on_open_folder).pack(side='left', padx=5)
+    Button(button_frame, text="Выйти", command=on_close).pack(side='left', padx=5)
+    
+    top.update_idletasks()
+    width = top.winfo_width()
+    height = top.winfo_height()
+    x = (top.winfo_screenwidth() // 2) - (width // 2)
+    y = (top.winfo_screenheight() // 2) - (height // 2)
+    top.geometry(f'{width}x{height}+{x}+{y}')
+
+    top.transient()  # Поверх других окон
+    top.grab_set()  # Модальное окно
+    top.protocol("WM_DELETE_WINDOW", on_close)  # Закрытие окна
 
 if __name__ == "__main__":
     open_file_dialog()
+    mainloop()
