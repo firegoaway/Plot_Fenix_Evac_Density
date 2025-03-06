@@ -143,6 +143,7 @@ def open_file_dialog():
             print(f"Графики сохранены по адресу: {save_path}")
     else:
         print("Файлы не выбраны.")
+        Close()
     
     def OpenPNG():
         os.startfile(save_path)
